@@ -45,38 +45,9 @@ public class MainActivity extends AppCompatActivity {
         rvMovies.setLayoutManager(new LinearLayoutManager(this));
 
 
-
-
-        // Initialize the client which executes requests
-        AsyncHttpClient client = new AsyncHttpClient();
-
         // Get : Movies Now Playing
-        client.get(NOW_PLAYING_URL, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int i, Headers headers, JSON json) {
-                Log.d(TAG, "onSuccess");
-                JSONObject jsonObject = json.jsonObject;
-                try {
-                    JSONArray results = jsonObject.getJSONArray("results");
-                    // log results at the (i)nformation level
-                    Log.i(TAG, "Results: " + results.toString());
-                    movies.addAll(Movie.fromJsonArray(results));
-                    movieAdapter.notifyDataSetChanged();
-                    Log.i(TAG, "Movies: " + movies.size());
+        movieAdapter.getMovies();
 
-
-                } catch (JSONException e) {
-                    Log.e(TAG, "Hit json exception", e);
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onFailure(int i, Headers headers, String s, Throwable throwable) {
-                Log.d(TAG, "onFailure");
-
-            }
-        });
 
     }
 }
